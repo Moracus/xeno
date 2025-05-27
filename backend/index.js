@@ -5,12 +5,14 @@ import customerRoutes from "./routes/customer.route.js";
 import orderRoutes from "./routes/order.route.js";
 import campaignRoutes from "./routes/campaign.route.js";
 import communicationLogRoutes from "./routes/communication.route.js";
+import authRoutes from "./routes/auth.routes.js";
+import { googleLogin } from "./controllers/authController.js";
 
 dotenv.config();
 const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
-
+app.use("/api/auth", googleLogin);
 app.use("/api/customers", customerRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/campaigns", campaignRoutes);
