@@ -1,11 +1,43 @@
 import Campaign from "../models/Campaign.js";
+import CommunicationLog from "../models/CommunicationLog.js";
 
 export const createCampaign = async (req, res) => {
   try {
-    const campaign = new Campaign(req.body);
+    const { name, audienceSize, customers, message } = req.body;
+    const campaign = new Campaign({
+      name,
+      audienceSize,
+    });
     const savedCampaign = await campaign.save();
-    res.status(201).json(savedCampaign);
+    const customerDetails = JSON.parse(customers);
+    // Shuffle customers for random SENT/FAILED assignment
+    const shuffledCustomers = [...customerDetails].sort(
+      () => Math.random() - 0.5
+    );
+
+    // Calculate the SENT and FAILED counts
+    const sentCount = Math.floor(shuffledCustomers.length * 0.9);
+    const failedCount = shuffledCustomers.length - sentCount;
+
+    // Assign statuses
+    const logs = shuffledCustomers.map((customer, index) => ({
+      campaignId: savedCampaign?._id, // Ensure campaignId is included in the request
+      customerId: customer._id,
+      status: index < sentCount ? "SENT" : "FAILED",
+      message: message.replace("{name}", customer.name),
+    }));
+
+    // Insert logs into the CommunicationLog collection
+    await CommunicationLog.insertMany(logs);
+
+    res.status(201).json({
+      message: "Communication logs created successfully.",
+      total: logs.length,
+      sent: sentCount,
+      failed: failedCount,
+    });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
 };

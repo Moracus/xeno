@@ -10,7 +10,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const { login } = useContext(AuthContext);
+  const { login, auth } = useContext(AuthContext);
+  const authorised = auth?.token;
 
   const googleLogin = async () => {
     try {
@@ -34,6 +35,9 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
+    if (authorised) {
+      navigate("/dashboard");
+    }
     googleLogin();
   }, [location, navigate]);
 
