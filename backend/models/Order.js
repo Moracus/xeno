@@ -8,7 +8,6 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     amount: { type: Number, required: true },
-    orderDate: { type: Date, required: true },
   },
   { timestamps: true }
 );

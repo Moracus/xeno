@@ -23,10 +23,10 @@ const LoginPage = () => {
         console.log(decodedToken);
         const user = decodedToken.user;
         login(token, user);
-        navigate(`/dashboard`); // Redirect to dashboard
+        navigate(`/dashboard`);
       } else if (error) {
         alert("Google login failed");
-        navigate("/"); // Redirect to login
+        navigate("/");
       }
     } catch (error) {
       console.error("Google login error:", error);
@@ -42,20 +42,30 @@ const LoginPage = () => {
   }, [location, navigate]);
 
   return (
-    <div className="flex-1 flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-md rounded-lg p-8 max-w-md text-center">
-        <h1 className="text-2xl font-semibold mb-6">Login</h1>
-        <GoogleLogin
-          onSuccess={(credentialResponse) => {
-            console.log(credentialResponse);
-          }}
-          onError={() => {
-            alert("Login failed");
-            console.error("Login Failed");
-          }}
-          login_uri={`${backendUrl}/api/auth/`}
-          ux_mode="redirect"
-        />
+    <div className="flex-1 h-full flex items-center justify-center ">
+      <div className="bg-white shadow-2xl rounded-2xl p-10 max-w-md w-full text-center transform transition-all duration-300 hover:scale-105">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">
+          Welcome to Xeno
+        </h1>
+        <p className="text-gray-600 mb-8">
+          Sign in to access your CRM dashboard
+        </p>
+        <div className="flex justify-center">
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log(credentialResponse);
+            }}
+            onError={() => {
+              alert("Login failed");
+              console.error("Login Failed");
+            }}
+            login_uri={`${backendUrl}/api/auth/`}
+            ux_mode="redirect"
+            theme="filled_blue"
+            size="large"
+            text="signin_with"
+          />
+        </div>
       </div>
     </div>
   );

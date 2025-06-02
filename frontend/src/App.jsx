@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./components/ui/Layout";
+import CampaignHistory from "./pages/CampaignHistory";
 
 const ProtectedRoute = ({ children }) => {
   const { auth } = useContext(AuthContext);
@@ -22,6 +23,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/campaign-history"
+            element={
+              <ProtectedRoute>
+                <CampaignHistory />
               </ProtectedRoute>
             }
           />
