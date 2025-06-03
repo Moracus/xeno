@@ -1,7 +1,9 @@
 import { InferenceClient } from "@huggingface/inference";
 import Customer from "../models/Customer.js";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-const client = new InferenceClient("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");
+const client = new InferenceClient(process.env.HF_TOKEN);
 
 const extractQuery = (response) => {
   const match = response.match(/Customer\.find\((\{.*\})\)/s);

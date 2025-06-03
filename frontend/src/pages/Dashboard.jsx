@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import CampaignModal from "../components/campaign/CampaignModal";
+import QueryBuilder from "../components/dragndrop/QueryBuilder";
 import { useNavigate } from "react-router-dom";
 
 const backendUrl = import.meta.env.VITE_BACKENDURL;
@@ -15,6 +16,7 @@ const Dashboard = () => {
   const [campaignName, setCampaignName] = useState("");
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMode, setSelectedMode] = useState(0); //0-nlp.1-dnd
   const navigate = useNavigate();
 
   const handleSearch = async () => {
@@ -67,12 +69,34 @@ const Dashboard = () => {
 
         {/* Search Section */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <textarea
-            className="w-full h-32 p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none transition-all duration-200"
-            placeholder="Enter your query in natural language (e.g., 'Find customers who spent over $100 last month')"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+          <div className="flex items-center gap-4 p-4">
+            select query mode:
+            <input
+              type="radio"
+              name="mode"
+              id="nlp"
+              checked={selectedMode == 0}
+              onClick={() => setSelectedMode(0)}
+            />
+            <label htmlFor="nlp">natural language</label>
+            <input
+              type="radio"
+              id="dnd"
+              name="mode"
+              checked={selectedMode == 1}
+              onClick={() => setSelectedMode(1)}
+            />
+            <label htmlFor="dnd">drag n drop</label>
+          </div>
+          {selectedMode == 0 && (
+            <textarea
+              className="w-full h-32 p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none transition-all duration-200"
+              placeholder="Enter your query in natural language (e.g., 'Find customers who spent over $100 last month')"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          )}
+          {selectedMode == 1 && <QueryBuilder setQuery={setQuery} />}
           <button
             className={`mt-4 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors ${
               loading ? "opacity-50 cursor-not-allowed" : ""
@@ -146,17 +170,17 @@ const Dashboard = () => {
                       } hover:bg-blue-50 transition-colors`}
                     >
                       <td className="px-6 py-4 text-gray-900 border-b border-gray-200">
-                        {customer.name}
+                        {customer?.name}
                       </td>
                       <td className="px-6 py-4 text-gray-900 border-b border-gray-200">
-                        ${customer.spend.toFixed(2)}
+                        ${customer?.spend.toFixed(2)}
                       </td>
                       <td className="px-6 py-4 text-gray-900 border-b border-gray-200">
-                        {customer.visits}
+                        {customer?.visits}
                       </td>
                       <td className="px-6 py-4 text-gray-900 border-b border-gray-200">
                         {
-                          new Date(customer.lastActiveDate)
+                          new Date(customer?.lastActiveDate)
                             .toISOString()
                             .split("T")[0]
                         }

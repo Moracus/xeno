@@ -32,9 +32,7 @@ export const googleLogin = async (req, res) => {
     }
 
     // Generate JWT
-    const jwtToken = jwt.sign({ id: user._id, user }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const jwtToken = jwt.sign({ id: user._id, user }, process.env.JWT_SECRET);
 
     // Redirect with token
     res.redirect(`${process.env.FRONTEND_URL}/?token=${jwtToken}`);
