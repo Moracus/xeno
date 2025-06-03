@@ -25,11 +25,7 @@ A Mini CRM platform designed for campaign management, customer data ingestion, a
 
 ### AI Integration
 - **Natural Language Query Generation**: Converts natural language into structured audience segment rules.
-- **Smart Scheduling**: AI-powered campaign scheduling to maximize engagement.
 
-### Bonus Features
-- Pub-sub architecture for scalable message delivery.
-- Batch processing for efficient database updates.
 
 ---
 
@@ -43,7 +39,7 @@ A Mini CRM platform designed for campaign management, customer data ingestion, a
 **Backend**
 - Framework: Node.js (Express.js)
 - Database: MongoDB
-- AI Integration: OpenAI GPT or similar NLP models
+- AI Integration: Deepseek R1 inference API to generate queries
 
 ---
 
