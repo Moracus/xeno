@@ -54,7 +54,7 @@ A Mini CRM platform designed for campaign management, customer data ingestion, a
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-repo/crm-platform.git
+   git clone https://github.com/Moracus/xeno.git
    cd xeno
 2. **Install Dependencies**
    ```bash
